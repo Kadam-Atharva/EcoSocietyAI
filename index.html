@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EcoSocietyAI - Empowering residential societies to optimize green space, track energy and water consumption, manage budgets, and discover verified green vendors.">
+    <meta name="keywords" content="housing society, sustainability, green energy, solar panels, rainwater harvesting, EV charging, utility tracking, environmental budget">
+    <title>EcoSocietyAI | Smart Housing Society Sustainability Platform</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Main Style Sheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <svg class="logo-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+                <span>EcoSociety<span class="logo-highlight">AI</span></span>
+            </a>
+            <nav class="nav-links">
+                <a href="#features" class="nav-item">Features</a>
+                <a href="#calculator" class="nav-item">Impact Calculator</a>
+                <a href="#dashboard" class="nav-item">Dashboard Preview</a>
+                <a href="#marketplace" class="nav-item">Marketplace</a>
+            </nav>
+            <div class="nav-actions">
+                <button class="btn btn-secondary btn-sm" id="btn-login">Login</button>
+                <button class="btn btn-primary btn-sm" id="btn-register">Get Started</button>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark Mode">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                    </svg>
+                </button>
+            </div>
+            <button class="mobile-nav-toggle" aria-label="Open Navigation Menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container hero-container grid-2">
+                <div class="hero-content">
+                    <div class="badge-pill">
+                        <span class="badge-dot"></span>
+                        <span class="badge-text">Next-Gen Green Housing Solutions</span>
+                    </div>
+                    <h1 class="hero-title">Transform Your Housing Society Into a <span class="gradient-text">Sustainable Ecosystem</span></h1>
+                    <p class="hero-description">EcoSocietyAI helps housing societies audit utilities, allocate space for green initiatives like solar energy, rainwater harvesting, and EV chargers, and discover verified green vendors.</p>
+                    <div class="hero-actions">
+                        <a href="#calculator" class="btn btn-primary btn-lg">Calculate Your ROI</a>
+                        <a href="#dashboard" class="btn btn-secondary btn-lg">Watch Interactive Demo</a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" id="stat-co2">0</span><span class="stat-unit">kg</span>
+                            <span class="stat-label">Carbon Offset</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="stat-societies">0</span><span class="stat-unit">+</span>
+                            <span class="stat-label">Smart Societies</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="stat-saving">0</span><span class="stat-unit">%</span>
+                            <span class="stat-label">Average Utility Savings</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="glow-effect"></div>
+                    <div class="image-wrapper">
+                        <img src="assets/hero_green_society.png" alt="EcoSocietyAI Sustainable Housing Society Illustration" class="hero-image">
+                    </div>
+                    <div class="floating-card metric-card">
+                        <div class="card-icon">
+                            <svg width="24" height="24" fill="none" stroke="#10B981" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <div class="card-details">
+                            <span class="card-title">Live Solar Generation</span>
+                            <span class="card-value">42.8 kW</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Features -->
+        <section id="features" class="features-section">
+            <div class="container">
+                <div class="section-header text-center">
+                    <h2 class="section-title">Core Platform Modules</h2>
+                    <p class="section-subtitle">Designed to cover all aspects of community carbon auditing, budgeting, and green infrastructure deployment.</p>
+                </div>
+                <div class="features-grid grid-3">
+                    <!-- Feature 1 -->
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                        </div>
+                        <h3>Smart Utility Auditing</h3>
+                        <p>Log and track electricity, water, and waste trends. Identify surges and structural wastage using intelligent trend analytics.</p>
+                    </div>
+                    <!-- Feature 2 -->
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                            </svg>
+                        </div>
+                        <h3>Space Asset Planner</h3>
+                        <p>Analyze available rooftop and ground space automatically. Align space measurements with solar capacity and rainwater retention calculations.</p>
+                    </div>
+                    <!-- Feature 3 -->
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                            </svg>
+                        </div>
+                        <h3>Green Marketplace</h3>
+                        <p>Connect with verified service vendors for Solar Panels, EV Charging Stations, Organic Composting, and Rainwater Harvesting.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sustainability Calculator Section -->
+        <section id="calculator" class="calculator-section">
+            <div class="container">
+                <div class="grid-2 align-center">
+                    <div class="calculator-info">
+                        <h2 class="section-title">Evaluate Your Society's <span class="gradient-text">Sustainability Potential</span></h2>
+                        <p class="section-subtitle">Adjust the parameters to estimate the environmental and economic savings your housing society can achieve.</p>
+                        <div class="calculator-form glass-panel">
+                            <!-- Input 1 -->
+                            <div class="form-group">
+                                <label for="input-roof">Available Rooftop Area (sq. ft.)</label>
+                                <div class="slider-wrapper">
+                                    <input type="range" id="input-roof" min="500" max="50000" step="500" value="10000">
+                                    <span class="value-display" id="display-roof">10,000 sq.ft.</span>
+                                </div>
+                            </div>
+                            <!-- Input 2 -->
+                            <div class="form-group">
+                                <label for="input-ground">Available Ground Area (sq. ft.)</label>
+                                <div class="slider-wrapper">
+                                    <input type="range" id="input-ground" min="500" max="50000" step="500" value="5000">
+                                    <span class="value-display" id="display-ground">5,000 sq.ft.</span>
+                                </div>
+                            </div>
+                            <!-- Input 3 -->
+                            <div class="form-group">
+                                <label for="input-bill">Monthly Electricity Bill (₹)</label>
+                                <div class="slider-wrapper">
+                                    <input type="range" id="input-bill" min="5000" max="500000" step="5000" value="75000">
+                                    <span class="value-display" id="display-bill">₹75,000</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Outputs Side -->
+                    <div class="calculator-outputs">
+                        <div class="outputs-wrapper glass-panel">
+                            <h3 class="output-header">Estimated Yearly Benefits</h3>
+                            <div class="outputs-grid">
+                                <div class="output-card">
+                                    <span class="output-label">Solar Power Capacity</span>
+                                    <div class="output-val-wrapper">
+                                        <span class="output-value" id="out-solar-cap">92</span>
+                                        <span class="output-unit">kWp</span>
+                                    </div>
+                                    <span class="output-detail" id="out-solar-desc">Optimal size for rooftop</span>
+                                </div>
+                                <div class="output-card">
+                                    <span class="output-label">Annual Utility Savings</span>
+                                    <div class="output-val-wrapper">
+                                        <span class="output-value text-green" id="out-savings">₹4.2L</span>
+                                    </div>
+                                    <span class="output-detail" id="out-saving-percent">Up to 45% savings</span>
+                                </div>
+                                <div class="output-card">
+                                    <span class="output-label">Rainwater Harvested</span>
+                                    <div class="output-val-wrapper">
+                                        <span class="output-value text-blue" id="out-rainwater">374K</span>
+                                        <span class="output-unit">Litres/yr</span>
+                                    </div>
+                                    <span class="output-detail" id="out-rain-desc">Recharges groundwater</span>
+                                </div>
+                                <div class="output-card">
+                                    <span class="output-label">CO2 Carbon Offset</span>
+                                    <div class="output-val-wrapper">
+                                        <span class="output-value text-teal" id="out-co2">115</span>
+                                        <span class="output-unit">Tons/yr</span>
+                                    </div>
+                                    <span class="output-detail" id="out-trees">≈ 5,230 trees planted</span>
+                                </div>
+                            </div>
+                            <!-- Payback visualization -->
+                            <div class="payback-container">
+                                <div class="payback-labels">
+                                    <span>Estimated Payback Period</span>
+                                    <span class="payback-years" id="out-payback">3.2 Years</span>
+                                </div>
+                                <div class="progress-bar-bg">
+                                    <div class="progress-bar-fill" id="payback-progress" style="width: 72%;"></div>
+                                </div>
+                                <span class="payback-hint">Excellent ROI: Green investments generally break even in 3-5 years.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Dashboard Mockup -->
+        <section id="dashboard" class="dashboard-section">
+            <div class="container">
+                <div class="section-header text-center">
+                    <h2 class="section-title">Interactive Society Admin Portal</h2>
+                    <p class="section-subtitle">A live mockup of our application interface dashboard. Click on the tabs below to explore different modules.</p>
+                </div>
+                
+                <div class="dashboard-container glass-panel">
+                    <!-- Dashboard Sidebar/Navigation -->
+                    <div class="dashboard-sidebar">
+                        <div class="sidebar-header">
+                            <div class="sidebar-logo">
+                                <span class="sidebar-logo-dot"></span>
+                                <span>Grand Meadows Society</span>
+                            </div>
+                            <span class="sidebar-role">SOCIETY ADMIN</span>
+                        </div>
+                        <div class="sidebar-menu">
+                            <button class="sidebar-menu-btn active" data-tab="tab-utility">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                                Utility Analytics
+                            </button>
+                            <button class="sidebar-menu-btn" data-tab="tab-space">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                Space allocation
+                            </button>
+                            <button class="sidebar-menu-btn" data-tab="tab-rfps">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                Vendor RFPs <span class="badge-count">2</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Main Content Screen -->
+                    <div class="dashboard-content">
+                        <!-- TAB 1: UTILITY ANALYTICS -->
+                        <div class="tab-pane active" id="tab-utility">
+                            <div class="tab-header">
+                                <div>
+                                    <h4>Utility Resource Logs</h4>
+                                    <p class="text-muted">Track monthly bills, resource consumption and target thresholds.</p>
+                                </div>
+                                <button class="btn btn-primary btn-sm">+ Log Utility Bill</button>
+                            </div>
+                            
+                            <div class="utility-grid">
+                                <!-- Utility Card 1 -->
+                                <div class="util-data-card">
+                                    <div class="util-data-header">
+                                        <div class="util-title">
+                                            <span class="util-badge util-badge-energy">Energy</span>
+                                            <h5>Electricity Grid</h5>
+                                        </div>
+                                        <span class="util-cost">₹1,42,800</span>
+                                    </div>
+                                    <div class="util-metric">
+                                        <span class="metric-val">12,450</span>
+                                        <span class="metric-unit">kWh</span>
+                                    </div>
+                                    <div class="util-progress-section">
+                                        <div class="progress-labels">
+                                            <span>Budget Consumption</span>
+                                            <span>82%</span>
+                                        </div>
+                                        <div class="progress-bar-bg">
+                                            <div class="progress-bar-fill progress-energy" style="width: 82%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Utility Card 2 -->
+                                <div class="util-data-card">
+                                    <div class="util-data-header">
+                                        <div class="util-title">
+                                            <span class="util-badge util-badge-water">Water</span>
+                                            <h5>Ground Water Supply</h5>
+                                        </div>
+                                        <span class="util-cost">₹58,400</span>
+                                    </div>
+                                    <div class="util-metric">
+                                        <span class="metric-val">3,82,000</span>
+                                        <span class="metric-unit">Litres</span>
+                                    </div>
+                                    <div class="util-progress-section">
+                                        <div class="progress-labels">
+                                            <span>Conservation Limit</span>
+                                            <span>64%</span>
+                                        </div>
+                                        <div class="progress-bar-bg">
+                                            <div class="progress-bar-fill progress-water" style="width: 64%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Utility Card 3 -->
+                                <div class="util-data-card">
+                                    <div class="util-data-header">
+                                        <div class="util-title">
+                                            <span class="util-badge util-badge-waste">Waste</span>
+                                            <h5>Solid Waste Disposal</h5>
+                                        </div>
+                                        <span class="util-cost">₹12,800</span>
+                                    </div>
+                                    <div class="util-metric">
+                                        <span class="metric-val">4,120</span>
+                                        <span class="metric-unit">kg</span>
+                                    </div>
+                                    <div class="util-progress-section">
+                                        <div class="progress-labels">
+                                            <span>Recycling Rate</span>
+                                            <span>74%</span>
+                                        </div>
+                                        <div class="progress-bar-bg">
+                                            <div class="progress-bar-fill progress-waste" style="width: 74%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mini Chart Representation -->
+                            <div class="chart-panel">
+                                <div class="chart-header">
+                                    <h5>Consumption Analysis &amp; Reduction Trends</h5>
+                                    <span class="chart-badge text-green">-14% vs Last Month</span>
+                                </div>
+                                <div class="mock-chart">
+                                    <div class="chart-bars">
+                                        <div class="bar-col"><div class="bar-fill" style="height: 90%;"></div><span>May</span></div>
+                                        <div class="bar-col"><div class="bar-fill" style="height: 82%;"></div><span>Jun</span></div>
+                                        <div class="bar-col"><div class="bar-fill" style="height: 70%;"></div><span>Jul (Current)</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB 2: SPACE ASSET ALLOCATION -->
+                        <div class="tab-pane" id="tab-space">
+                            <div class="tab-header">
+                                <div>
+                                    <h4>Rooftop and Ground Space Management</h4>
+                                    <p class="text-muted">Analyze your physical environment constraints to project maximum environmental output capacity.</p>
+                                </div>
+                            </div>
+
+                            <div class="space-columns">
+                                <div class="space-info-card">
+                                    <h5>Rooftop Space Allocation</h5>
+                                    <div class="space-stats">
+                                        <div>
+                                            <span class="label">Total Roof Area</span>
+                                            <span class="value">15,000 sq.ft.</span>
+                                        </div>
+                                        <div>
+                                            <span class="label">Allocated to Solar</span>
+                                            <span class="value text-green">6,500 sq.ft. (43%)</span>
+                                        </div>
+                                    </div>
+                                    <div class="space-chart-bar">
+                                        <div class="segment segment-solar" style="width: 43%;">Solar</div>
+                                        <div class="segment segment-greenhouse" style="width: 20%;">Gardens</div>
+                                        <div class="segment segment-free" style="width: 37%;">Unused</div>
+                                    </div>
+                                    <ul class="space-list">
+                                        <li><span>Solar Panels Installed:</span> <strong>80 kWp (320 panels)</strong></li>
+                                        <li><span>Active Clean Gen:</span> <strong>340 kWh/day</strong></li>
+                                    </ul>
+                                </div>
+
+                                <div class="space-info-card">
+                                    <h5>Ground Space Allocation</h5>
+                                    <div class="space-stats">
+                                        <div>
+                                            <span class="label">Total Ground Area</span>
+                                            <span class="value">8,000 sq.ft.</span>
+                                        </div>
+                                        <div>
+                                            <span class="label">Rainwater Recharge</span>
+                                            <span class="value text-blue">2,400 sq.ft. (30%)</span>
+                                        </div>
+                                    </div>
+                                    <div class="space-chart-bar">
+                                        <div class="segment segment-rainwater" style="width: 30%;">Water Pit</div>
+                                        <div class="segment segment-compost" style="width: 15%;">Compost</div>
+                                        <div class="segment segment-free" style="width: 55%;">Gardens &amp; Open</div>
+                                    </div>
+                                    <ul class="space-list">
+                                        <li><span>Rainwater Recharge Shafts:</span> <strong>3 Active Shafts</strong></li>
+                                        <li><span>Organic Composting Capacity:</span> <strong>500 kg/month</strong></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB 3: VENDOR SERVICE RFPs -->
+                        <div class="tab-pane" id="tab-rfps">
+                            <div class="tab-header">
+                                <div>
+                                    <h4>Vendor Service Requests &amp; Proposals</h4>
+                                    <p class="text-muted">Receive competitive bids from verified green engineering services match-fit for your budget.</p>
+                                </div>
+                                <button class="btn btn-secondary btn-sm">Create New RFP</button>
+                            </div>
+
+                            <div class="rfp-list">
+                                <!-- RFP Item 1 -->
+                                <div class="rfp-item">
+                                    <div class="rfp-main">
+                                        <div class="rfp-info">
+                                            <span class="rfp-status status-bids">3 Bids Received</span>
+                                            <h5>Solar System Expansion (50 kWp Addon)</h5>
+                                            <p class="text-muted">Rooftop space ready. Targeting completion by Q4. Budget: ₹12,00,000 max.</p>
+                                        </div>
+                                        <div class="rfp-actions">
+                                            <button class="btn btn-outline btn-sm">View Proposals</button>
+                                        </div>
+                                    </div>
+                                    <!-- Embedded bids list -->
+                                    <div class="rfp-bids">
+                                        <div class="bid-row">
+                                            <span>☀️ SunPower Systems</span>
+                                            <span class="bid-rating">⭐ 4.8 (Verified)</span>
+                                            <strong class="bid-price">₹10,50,000</strong>
+                                            <button class="btn btn-primary btn-xs">Accept Bid</button>
+                                        </div>
+                                        <div class="bid-row">
+                                            <span>⚡ ElectroGrid Green</span>
+                                            <span class="bid-rating">⭐ 4.5 (Verified)</span>
+                                            <strong class="bid-price">₹11,20,000</strong>
+                                            <button class="btn btn-primary btn-xs">Accept Bid</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- RFP Item 2 -->
+                                <div class="rfp-item">
+                                    <div class="rfp-main">
+                                        <div class="rfp-info">
+                                            <span class="rfp-status status-bids">1 Bid Received</span>
+                                            <h5>Rainwater Harvesting Re-lining &amp; Maintenance</h5>
+                                            <p class="text-muted">Periodic maintenance for 2 underground storage tanks and filtration sand beds.</p>
+                                        </div>
+                                        <div class="rfp-actions">
+                                            <button class="btn btn-outline btn-sm">View Proposals</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vendor Marketplace Showcase -->
+        <section id="marketplace" class="marketplace-section">
+            <div class="container">
+                <div class="section-header text-center">
+                    <h2 class="section-title">Verified Green Vendor Marketplace</h2>
+                    <p class="section-subtitle">Instantly buy or request quotations from highly rated sustainable technology providers verified by system administrators.</p>
+                    <div class="filter-tabs">
+                        <button class="filter-btn active" data-filter="all">All Solutions</button>
+                        <button class="filter-btn" data-filter="solar">Solar Energy</button>
+                        <button class="filter-btn" data-filter="water">Rainwater Harvesting</button>
+                        <button class="filter-btn" data-filter="waste">Waste Management</button>
+                    </div>
+                </div>
+
+                <div class="marketplace-grid grid-3" id="marketplace-grid">
+                    <!-- Service 1 -->
+                    <div class="market-card" data-category="solar">
+                        <div class="market-badge">Solar</div>
+                        <div class="market-content">
+                            <h4>Solar Panel Installation - 10kWp</h4>
+                            <p class="text-muted">Complete installation including mono-PERC solar modules, grid-tie inverter, structure, net-metering assistance, and 5-year maintenance.</p>
+                            <div class="market-footer">
+                                <div class="price-info">
+                                    <span class="price-label">Starts at</span>
+                                    <span class="price-value">₹4,50,000</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm btn-market">Request Quote</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <div class="market-card" data-category="water">
+                        <div class="market-badge">Rainwater</div>
+                        <div class="market-content">
+                            <h4>Dual-Chamber Rainwater Harvester</h4>
+                            <p class="text-muted">Ground-level filtration chambers and recharge shafts setup. Captures, filters, and redirects storm water to recharge housing borewells.</p>
+                            <div class="market-footer">
+                                <div class="price-info">
+                                    <span class="price-label">Starts at</span>
+                                    <span class="price-value">₹1,80,000</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm btn-market">Request Quote</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service 3 -->
+                    <div class="market-card" data-category="waste">
+                        <div class="market-badge">Waste</div>
+                        <div class="market-content">
+                            <h4>Organic Shredder &amp; Compost Tumbler</h4>
+                            <p class="text-muted">Heavy-duty food waste shredder combined with mechanical turning compost pits. Converts 150kg wet kitchen waste to organic manure daily.</p>
+                            <div class="market-footer">
+                                <div class="price-info">
+                                    <span class="price-label">Starts at</span>
+                                    <span class="price-value">₹95,000</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm btn-market">Request Quote</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service 4 -->
+                    <div class="market-card" data-category="solar">
+                        <div class="market-badge">Solar</div>
+                        <div class="market-content">
+                            <h4>Smart EV Charger Station Hub</h4>
+                            <p class="text-muted">Setup 3x AC Type-2 chargers (7.4kW) with integrated RFID/UPI payment gateway. Allows members to self-charge vehicles and auto-bill.</p>
+                            <div class="market-footer">
+                                <div class="price-info">
+                                    <span class="price-label">Starts at</span>
+                                    <span class="price-value">₹2,20,000</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm btn-market">Request Quote</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service 5 -->
+                    <div class="market-card" data-category="water">
+                        <div class="market-badge">Rainwater</div>
+                        <div class="market-content">
+                            <h4>Borewell Recharge System Repair</h4>
+                            <p class="text-muted">Cleaning, silt removal, desand, and restructuring of silt traps for existing housing community rainwater structures.</p>
+                            <div class="market-footer">
+                                <div class="price-info">
+                                    <span class="price-label">Starts at</span>
+                                    <span class="price-value">₹45,000</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm btn-market">Request Quote</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service 6 -->
+                    <div class="market-card" data-category="waste">
+                        <div class="market-badge">Waste</div>
+                        <div class="market-content">
+                            <h4>Biogas Plant (5 Cubic Meter)</h4>
+                            <p class="text-muted">Compact community anaerobic waste digestor. Recovers methane from kitchen waste to generate biogas for communal heaters or kitchens.</p>
+                            <div class="market-footer">
+                                <div class="price-info">
+                                    <span class="price-label">Starts at</span>
+                                    <span class="price-value">₹3,10,000</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm btn-market">Request Quote</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Callout -->
+        <section class="cta-section">
+            <div class="container text-center">
+                <h2>Ready to Make Your Society Carbon Neutral?</h2>
+                <p>Register your residential association, schedule a structural audit, and get automated recommendations from green vendors.</p>
+                <div class="cta-buttons">
+                    <button class="btn btn-primary btn-lg">Register Society</button>
+                    <button class="btn btn-outline btn-lg">Join as Eco-Vendor</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <a href="#" class="logo">
+                    <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                    <span>EcoSociety<span class="logo-highlight">AI</span></span>
+                </a>
+                <p class="brand-tagline">Empowering residential structures for a sustainable, net-zero future.</p>
+            </div>
+            <div class="footer-links-group">
+                <div class="footer-links-col">
+                    <h6>Platform</h6>
+                    <a href="#features">Features</a>
+                    <a href="#calculator">Savings Calculator</a>
+                    <a href="#dashboard">Admin Demo</a>
+                    <a href="#marketplace">Eco-Vendors</a>
+                </div>
+                <div class="footer-links-col">
+                    <h6>Resources</h6>
+                    <a href="#">Documentation</a>
+                    <a href="#">Carbon Standards</a>
+                    <a href="#">Support Hub</a>
+                    <a href="#">API Access</a>
+                </div>
+                <div class="footer-links-col">
+                    <h6>Company</h6>
+                    <a href="#">About Us</a>
+                    <a href="#">Press Kit</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Use</a>
+                </div>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 EcoSocietyAI. Designed for housing society sustainability. All rights reserved.</p>
+            <div class="footer-socials">
+                <a href="#" aria-label="Twitter">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a href="#" aria-label="GitHub">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.137 20.162 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>
