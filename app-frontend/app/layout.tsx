@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/context/AuthContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -19,14 +21,48 @@ export const metadata: Metadata = {
   description: "EcoSocietyAI - Empowering residential societies to optimize green space, track energy and water consumption, manage budgets, and discover verified green vendors.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html
       lang="en"
       className={`${inter.variable} ${outfit.variable} h-full antialiased`}
       data-scroll-behavior="smooth"
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){
+              try {
+                var stored = localStorage.getItem('ecosociety_theme') || localStorage.getItem('theme');
+                var isLight = stored === 'light';
+                var root = document.documentElement;
+                if (isLight) {
+                  root.classList.add('light-theme', 'light');
+                  root.classList.remove('dark');
+                  root.setAttribute('data-theme', 'light');
+                  root.style.colorScheme = 'light';
+                } else {
+                  root.classList.remove('light-theme', 'light');
+                  root.classList.add('dark');
+                  root.setAttribute('data-theme', 'dark');
+                  root.style.colorScheme = 'dark';
+                }
+              } catch(e) {}
+            })();`,
+          }}
+        />
+      </head>
+      <body className="min-h-full flex flex-col">
+        <ThemeProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
+

@@ -1,44 +1,42 @@
 package com.ecosocietyai.backend.services;
 
-import com.ecosocietyai.backend.domain.CreateUserRequest;
-import com.ecosocietyai.backend.domain.User;
-import com.ecosocietyai.backend.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ecosocietyai.backend.domain.entities.User;
+import com.ecosocietyai.backend.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
-public class UserService {
+import java.util.List;
+import java.util.Optional;
 
+@Service
+@RequiredArgsConstructor
+public class UserService {
     private final UserRepository userRepository;
 
-    @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
-    public User createUser(CreateUserRequest request) {
-        // Simple validations
-        if (request.getEmail() == null || request.getEmail().isBlank()) {
-            throw new IllegalArgumentException("Email is required");
-        }
-        if (request.getPassword() == null || request.getPassword().isBlank()) {
-            throw new IllegalArgumentException("Password is required");
-        }
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new IllegalStateException("Email already in use");
-        }
+    public Optional<User> getUserById(Long id) {
+        return userRepository.findById(id);
+    }
 
-        // Mock password hashing (simulation since security starter is not configured)
-        String passwordHash = "mock_hash_" + request.getPassword().hashCode();
+    public Optional<User> getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 
-        User user = User.builder()
-                .fullName(request.getFullName())
-                .email(request.getEmail())
-                .passwordHash(passwordHash)
-                .phoneNumber(request.getPhoneNumber())
-                .roleId(request.getRoleId())
-                .build();
+    public List<User> getUsersByRoleId(Integer roleId) {
+        return userRepository.findByRole_RoleId(roleId);
+    }
 
+    public User saveUser(User user) {
+        if (userRepository.existsByEmail(user.getEmail()) && user.getUserId() == null) {
+            throw new IllegalArgumentException("Email is already in use");
+        }
         return userRepository.save(user);
+    }
+
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
 }

@@ -3,13 +3,13 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Navbar from "@/components/Navbar";
 
 export default function Home() {
   // --- States ---
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"utility" | "space" | "rfps">("utility");
   const [marketplaceFilter, setMarketplaceFilter] = useState<"all" | "solar" | "water" | "waste">("all");
+
 
   // Calculator inputs
   const [roofArea, setRoofArea] = useState(10000);
@@ -21,24 +21,7 @@ export default function Home() {
   const [societies, setSocieties] = useState(0);
   const [saving, setSaving] = useState(0);
 
-  // --- Effects ---
-  // Theme initialization
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") as "dark" | "light" | null;
-    if (savedTheme) {
-      setTheme(savedTheme);
-    }
-  }, []);
 
-  // Theme application
-  useEffect(() => {
-    if (theme === "light") {
-      document.body.classList.add("light-theme");
-    } else {
-      document.body.classList.remove("light-theme");
-    }
-    localStorage.setItem("theme", theme);
-  }, [theme]);
 
   // Stats count-up animation
   useEffect(() => {
@@ -172,88 +155,8 @@ export default function Home() {
 
   return (
     <>
-      {/* Header Navigation */}
-      <header className="header">
-        <div className="container header-container">
-          <a href="#" className="logo">
-            <svg
-              className="logo-icon"
-              width="28"
-              height="28"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-            </svg>
-            <span>
-              EcoSociety<span className="logo-highlight">AI</span>
-            </span>
-          </a>
-          <nav className={`nav-links ${mobileMenuOpen ? "active" : ""}`}>
-            <a href="#features" className="nav-item" onClick={() => setMobileMenuOpen(false)}>
-              Features
-            </a>
-            <a href="#calculator" className="nav-item" onClick={() => setMobileMenuOpen(false)}>
-              Impact Calculator
-            </a>
-            <a href="#dashboard" className="nav-item" onClick={() => setMobileMenuOpen(false)}>
-              Dashboard Preview
-            </a>
-            <a href="#marketplace" className="nav-item" onClick={() => setMobileMenuOpen(false)}>
-              Marketplace
-            </a>
-          </nav>
-          <div className="nav-actions">
-            <Link href="/dashboard" className="btn btn-secondary btn-sm" id="btn-login">
-              Login
-            </Link>
-            <Link href="/dashboard" className="btn btn-primary btn-sm" id="btn-register">
-              Get Started
-            </Link>
-            <button
-              className="theme-toggle"
-              id="theme-toggle"
-              aria-label="Toggle Dark Mode"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            >
-              {theme === "light" ? (
-                <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                </svg>
-              ) : (
-                <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="5"></circle>
-                  <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
-                </svg>
-              )}
-            </button>
-          </div>
-          <button
-            className="mobile-nav-toggle"
-            aria-label="Open Navigation Menu"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="3" y1="12" x2="21" y2="12"></line>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-          </button>
-        </div>
-      </header>
+      {/* Enterprise Professional Navigation Bar */}
+      <Navbar activeView="landing" />
 
       <main>
         {/* Hero Section */}
@@ -926,10 +829,12 @@ export default function Home() {
               from green vendors.
             </p>
             <div className="cta-buttons">
-              <Link href="/dashboard" className="btn btn-primary btn-lg">
+              <Link href="/register" className="btn btn-primary btn-lg">
                 Register Society
               </Link>
-              <button className="btn btn-outline btn-lg">Join as Eco-Vendor</button>
+              <Link href="/register" className="btn btn-outline btn-lg">
+                Join as Eco-Vendor
+              </Link>
             </div>
           </div>
         </section>

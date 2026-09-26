@@ -29,14 +29,16 @@
     --font-body: var(--font-inter), 'Inter', sans-serif;
 }
 
-body.light-theme {
+body.light-theme,
+html.light-theme,
+.light-theme {
     --bg-color: #F8FAFC;
     --bg-gradient: radial-gradient(circle at 80% 10%, #ECFDF5 0%, #F8FAFC 50%, #E2E8F0 100%);
-    --card-bg: rgba(255, 255, 255, 0.7);
+    --card-bg: rgba(255, 255, 255, 0.85);
     --card-bg-solid: #ffffff;
-    --card-border: rgba(0, 0, 0, 0.08);
+    --card-border: rgba(0, 0, 0, 0.09);
     --text-primary: #0F172A;
-    --text-secondary: #475569;
+    --text-secondary: #334155;
     --text-muted: #64748B;
     --primary: #059669;
     --primary-rgb: 5, 150, 105;
@@ -44,10 +46,11 @@ body.light-theme {
     --secondary: #0891B2;
     --secondary-rgb: 8, 145, 178;
     --secondary-hover: #0369A1;
+    --accent-orange: #D97706;
     --shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.08);
     --glow-primary: rgba(5, 150, 105, 0.08);
     --glow-secondary: rgba(8, 145, 178, 0.08);
-    --glass-blur: 12px;
+    --glass-blur: 14px;
 }
 
 /* Reset & Global */
@@ -1402,6 +1405,17 @@ body.light-theme .footer {
     }
 }
 
+@media (max-width: 960px) {
+    .landing-nav-links {
+        display: none !important;
+    }
+    .mobile-nav-toggle {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
 @media (max-width: 768px) {
     section {
         padding: 60px 0;
@@ -1416,11 +1430,14 @@ body.light-theme .footer {
     .hero-title {
         font-size: 2.75rem;
     }
+    .landing-nav-links,
     .nav-links {
-        display: none; /* Mobile menu handles this dynamically */
+        display: none !important; /* Mobile menu handles this dynamically */
     }
     .mobile-nav-toggle {
-        display: block;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
     }
     .dashboard-container {
         grid-template-columns: 1fr;
@@ -1609,4 +1626,218 @@ body.light-theme .toast {
 @keyframes slideInRight {
     from { transform: translateX(100%); opacity: 0; }
     to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Dashboard wrapper theme transition */
+.dashboard-wrapper {
+    min-height: 100vh;
+    background: var(--bg-color);
+    background-image: var(--bg-gradient);
+    color: var(--text-primary);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Dark Mode Form Inputs and Selects (Active when dark theme) */
+html:not(.light-theme) input[type="text"],
+html:not(.light-theme) input[type="number"],
+html:not(.light-theme) input[type="tel"],
+html:not(.light-theme) input[type="email"],
+html:not(.light-theme) input[type="password"],
+html:not(.light-theme) select,
+html:not(.light-theme) textarea,
+body:not(.light-theme) input[type="text"],
+body:not(.light-theme) input[type="number"],
+body:not(.light-theme) input[type="tel"],
+body:not(.light-theme) input[type="email"],
+body:not(.light-theme) input[type="password"],
+body:not(.light-theme) select,
+body:not(.light-theme) textarea {
+    background: rgba(15, 23, 42, 0.75) !important;
+    color: #F9FAFB !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 8px;
+    outline: none;
+}
+
+html:not(.light-theme) option,
+body:not(.light-theme) option {
+    background: #0F172A !important;
+    color: #F9FAFB !important;
+}
+
+html:not(.light-theme) input:focus,
+body:not(.light-theme) input:focus,
+html:not(.light-theme) select:focus,
+body:not(.light-theme) select:focus,
+html:not(.light-theme) textarea:focus,
+body:not(.light-theme) textarea:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25) !important;
+}
+
+/* Light Theme Overrides for form controls and surfaces */
+html.light-theme input[type="text"],
+html.light-theme input[type="number"],
+html.light-theme input[type="tel"],
+html.light-theme input[type="email"],
+html.light-theme input[type="password"],
+html.light-theme select,
+html.light-theme textarea,
+body.light-theme input[type="text"],
+body.light-theme input[type="number"],
+body.light-theme input[type="tel"],
+body.light-theme input[type="email"],
+body.light-theme input[type="password"],
+body.light-theme select,
+body.light-theme textarea {
+    background: #FFFFFF !important;
+    color: #0F172A !important;
+    border: 1px solid #CBD5E1 !important;
+    border-radius: 8px;
+    outline: none;
+}
+
+html.light-theme option,
+body.light-theme option {
+    background: #FFFFFF !important;
+    color: #0F172A !important;
+}
+
+html.light-theme input:focus,
+body.light-theme input:focus,
+html.light-theme select:focus,
+body.light-theme select:focus,
+html.light-theme textarea:focus,
+body.light-theme textarea:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2) !important;
+}
+
+/* Range input styling for both themes */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.12);
+    outline: none;
+}
+
+body.light-theme input[type="range"],
+html.light-theme input[type="range"] {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.15s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+}
+
+/* Glass panel styling in dark vs light mode */
+html:not(.light-theme) .glass-panel,
+body:not(.light-theme) .glass-panel {
+    background: rgba(15, 22, 36, 0.72) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+html.light-theme .glass-panel,
+body.light-theme .glass-panel {
+    background: rgba(255, 255, 255, 0.92) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.06);
+}
+
+/* Professional Trust Stickers & Certification Seals */
+.trust-sticker {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    white-space: nowrap;
+}
+
+.trust-sticker svg {
+    flex-shrink: 0;
+}
+
+.trust-sticker:hover {
+    transform: translateY(-1px);
+}
+
+.sticker-gold {
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    color: #F59E0B;
+}
+
+.sticker-green {
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    color: var(--primary);
+}
+
+.sticker-cyan {
+    background: rgba(6, 182, 212, 0.12);
+    border: 1px solid rgba(6, 182, 212, 0.35);
+    color: var(--secondary);
+}
+
+.sticker-purple {
+    background: rgba(139, 92, 246, 0.12);
+    border: 1px solid rgba(139, 92, 246, 0.35);
+    color: #A78BFA;
+}
+
+.sticker-blue {
+    background: rgba(59, 130, 246, 0.12);
+    border: 1px solid rgba(59, 130, 246, 0.35);
+    color: #60A5FA;
+}
+
+.sticker-emerald {
+    background: rgba(16, 185, 129, 0.18);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    color: #10B981;
+}
+
+/* Modal styling */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
 }
