@@ -7,9 +7,17 @@ import Navbar from "@/components/Navbar";
 
 export default function Home() {
   // --- States ---
-  const [activeTab, setActiveTab] = useState<"utility" | "space" | "rfps">("utility");
-  const [marketplaceFilter, setMarketplaceFilter] = useState<"all" | "solar" | "water" | "waste">("all");
+  const [activeTab, setActiveTab] = useState<"utility" | "space" | "rfps" | "marketplace">("utility");
+  const [marketplaceFilter, setMarketplaceFilter] = useState<"all" | "solar" | "water" | "ev" | "waste" | "storage">("all");
+  const [marketplaceSearch, setMarketplaceSearch] = useState("");
 
+  // Quotation Request Modal States
+  const [selectedService, setSelectedService] = useState<any>(null);
+  const [quoteModalOpen, setQuoteModalOpen] = useState(false);
+  const [quoteSocietyName, setQuoteSocietyName] = useState("");
+  const [quoteContactPhone, setQuoteContactPhone] = useState("");
+  const [quoteNotes, setQuoteNotes] = useState("");
+  const [quoteSubmitted, setQuoteSubmitted] = useState(false);
 
   // Calculator inputs
   const [roofArea, setRoofArea] = useState(10000);
@@ -20,8 +28,6 @@ export default function Home() {
   const [co2, setCo2] = useState(0);
   const [societies, setSocieties] = useState(0);
   const [saving, setSaving] = useState(0);
-
-
 
   // Stats count-up animation
   useEffect(() => {
@@ -97,61 +103,132 @@ export default function Home() {
     return num.toLocaleString("en-IN");
   };
 
-  // --- Vendor Marketplace Data ---
+  // --- Verified Green Marketplace Data ---
   const vendorServices = [
     {
       id: 1,
       category: "solar",
-      badge: "Solar",
+      badge: "Solar PV",
+      vendor: "SunPower CleanTech",
+      rating: 4.9,
+      installations: "42+ Projects",
       title: "Solar Panel Installation - 10kWp",
       desc: "Complete installation including mono-PERC solar modules, grid-tie inverter, structure, net-metering assistance, and 5-year maintenance.",
       price: "₹4,50,000",
+      trustBadge: "MNRE Empaneled",
     },
     {
       id: 2,
       category: "water",
       badge: "Rainwater",
+      vendor: "AquaFlow Rainwater",
+      rating: 4.8,
+      installations: "65+ Projects",
       title: "Dual-Chamber Rainwater Harvester",
       desc: "Ground-level filtration chambers and recharge shafts setup. Captures, filters, and redirects storm water to recharge housing borewells.",
       price: "₹1,80,000",
+      trustBadge: "CGWA Hydro-Certified",
     },
     {
       id: 3,
       category: "waste",
-      badge: "Waste",
+      badge: "Waste Mgmt",
+      vendor: "EcoTerra Bio-Engineering",
+      rating: 4.7,
+      installations: "51+ Projects",
       title: "Organic Shredder & Compost Tumbler",
       desc: "Heavy-duty food waste shredder combined with mechanical turning compost pits. Converts 150kg wet kitchen waste to organic manure daily.",
       price: "₹95,000",
+      trustBadge: "CPCB Compliant",
     },
     {
       id: 4,
-      category: "solar",
-      badge: "Solar",
-      title: "Smart EV Charger Station Hub",
-      desc: "Setup 3x AC Type-2 chargers (7.4kW) with integrated RFID/UPI payment gateway. Allows members to self-charge vehicles and auto-bill.",
+      category: "ev",
+      badge: "EV Charging",
+      vendor: "VoltCharge Systems",
+      rating: 4.9,
+      installations: "34+ Hubs",
+      title: "Smart EV Charger Station Hub (3x 7.4kW)",
+      desc: "Setup 3x AC Type-2 chargers with integrated RFID/UPI payment gateway. Allows members to self-charge vehicles and auto-bill.",
       price: "₹2,20,000",
+      trustBadge: "ARAI Approved",
     },
     {
       id: 5,
       category: "water",
       badge: "Rainwater",
-      title: "Borewell Recharge System Repair",
-      desc: "Cleaning, silt removal, desand, and restructuring of silt traps for existing housing community rainwater structures.",
+      vendor: "PureStream Labs IoT",
+      rating: 4.6,
+      installations: "28+ Projects",
+      title: "Borewell Recharge & IoT Smart Metering",
+      desc: "Cleaning, silt removal, desand restructuring, and LoRaWAN ultrasonic flat-wise water monitoring to prevent borewell depletion.",
       price: "₹45,000",
+      trustBadge: "MID Water Meter Norms",
     },
     {
       id: 6,
       category: "waste",
-      badge: "Waste",
-      title: "Biogas Plant (5 Cubic Meter)",
+      badge: "Bio-Energy",
+      vendor: "GreenMethane Tech",
+      rating: 4.7,
+      installations: "18+ Projects",
+      title: "Biogas Plant (5 Cubic Meter Digestor)",
       desc: "Compact community anaerobic waste digestor. Recovers methane from kitchen waste to generate biogas for communal heaters or kitchens.",
       price: "₹3,10,000",
+      trustBadge: "Zero Odor Tech",
+    },
+    {
+      id: 7,
+      category: "solar",
+      badge: "Solar PV",
+      vendor: "ElectroGrid Green Systems",
+      rating: 4.8,
+      installations: "39+ Projects",
+      title: "Bifacial Rooftop Solar Microgrid (25kWp)",
+      desc: "High-yield dual-glass bifacial modules with hybrid inverters and automatic load shedding for elevators, fire pumps, and common areas.",
+      price: "₹10,50,000",
+      trustBadge: "Tier-1 Dual Glass",
+    },
+    {
+      id: 8,
+      category: "storage",
+      badge: "BESS Storage",
+      vendor: "PowerVault Clean Energy",
+      rating: 4.8,
+      installations: "12+ Systems",
+      title: "Battery Energy Storage System (30kWh LFP)",
+      desc: "Lithium Ferro Phosphate (LiFePO4) safety battery bank to store daytime solar surplus for evening common lighting and pump operations.",
+      price: "₹5,40,000",
+      trustBadge: "UL 9540A Fire-Safe",
     },
   ];
 
-  const filteredServices = vendorServices.filter(
-    (service) => marketplaceFilter === "all" || service.category === marketplaceFilter
-  );
+  const filteredServices = vendorServices.filter((service) => {
+    const matchesCategory = marketplaceFilter === "all" || service.category === marketplaceFilter;
+    const matchesSearch =
+      marketplaceSearch.trim() === "" ||
+      service.title.toLowerCase().includes(marketplaceSearch.toLowerCase()) ||
+      service.vendor.toLowerCase().includes(marketplaceSearch.toLowerCase()) ||
+      service.desc.toLowerCase().includes(marketplaceSearch.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
+
+  const handleOpenQuoteModal = (service: any) => {
+    setSelectedService(service);
+    setQuoteSubmitted(false);
+    setQuoteModalOpen(true);
+  };
+
+  const handleSubmitQuote = (e: React.FormEvent) => {
+    e.preventDefault();
+    setQuoteSubmitted(true);
+    setTimeout(() => {
+      setQuoteModalOpen(false);
+      setQuoteContactPhone("");
+      setQuoteSocietyName("");
+      setQuoteNotes("");
+    }, 2500);
+  };
 
   return (
     <>
@@ -284,6 +361,16 @@ export default function Home() {
                 <p>
                   Connect with verified service vendors for Solar Panels, EV Charging Stations, Organic Composting, and Rainwater Harvesting.
                 </p>
+                <div style={{ marginTop: "14px" }}>
+                  <Link
+                    href="/marketplace"
+                    className="btn btn-outline btn-sm"
+                    style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "0.82rem" }}
+                  >
+                    <span>Search Utilities In-Detail</span>
+                    <span>→</span>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -502,6 +589,28 @@ export default function Home() {
                     </svg>
                     Vendor RFPs <span className="badge-count">2</span>
                   </button>
+                  <Link
+                    href="/marketplace"
+                    className="sidebar-menu-btn"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      textDecoration: "none",
+                      color: "inherit",
+                      cursor: "pointer",
+                      width: "100%",
+                    }}
+                    title="Open dedicated marketplace page with in-depth search and technical details"
+                  >
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                      <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                      </svg>
+                      All Marketplace
+                    </div>
+                    <span className="badge-count" style={{ background: "#10B981", color: "#fff" }}>Open Page ↗</span>
+                  </Link>
                 </div>
               </div>
 
@@ -757,68 +866,407 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
+
+                {/* TAB 4: ALL MARKETPLACE (LIVE DEMO PREVIEW) */}
+                <div className={`tab-pane ${activeTab === "marketplace" ? "active" : ""}`}>
+                  <div className="tab-header">
+                    <div>
+                      <h4>All Marketplace Solutions (Live Demo)</h4>
+                      <p className="text-muted">Preview verified sustainable hardware, smart metering, and turnkey clean tech offerings.</p>
+                    </div>
+                    <Link href="/marketplace" className="btn btn-primary btn-sm">
+                      Open Dedicated Marketplace Page →
+                    </Link>
+                  </div>
+
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "16px" }}>
+                    {vendorServices.slice(0, 4).map((s) => (
+                      <div
+                        key={s.id}
+                        style={{
+                          background: "var(--card-bg)",
+                          border: "1px solid var(--card-border)",
+                          borderRadius: "12px",
+                          padding: "16px",
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "space-between",
+                          gap: "12px",
+                        }}
+                      >
+                        <div>
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                            <span style={{ fontSize: "0.72rem", padding: "2px 8px", borderRadius: "12px", background: "rgba(16, 185, 129, 0.15)", color: "#10B981", fontWeight: 700 }}>
+                              {s.badge}
+                            </span>
+                            <span style={{ fontSize: "0.74rem", color: "#F59E0B", fontWeight: 700 }}>
+                              ⭐ {s.rating}
+                            </span>
+                          </div>
+                          <h5 style={{ fontSize: "0.95rem", fontWeight: 700, margin: "0 0 6px 0", color: "var(--text-primary)" }}>{s.title}</h5>
+                          <p style={{ fontSize: "0.8rem", color: "var(--text-muted)", margin: 0, lineHeight: 1.4 }}>{s.vendor} • {s.installations}</p>
+                        </div>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "8px", borderTop: "1px solid var(--card-border)" }}>
+                          <span style={{ fontSize: "0.95rem", fontWeight: 800, color: "var(--text-primary)" }}>{s.price}</span>
+                          <button
+                            onClick={() => handleOpenQuoteModal(s)}
+                            className="btn btn-primary btn-xs"
+                            style={{ padding: "5px 10px", fontSize: "0.75rem" }}
+                          >
+                            Quote
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Vendor Marketplace Showcase */}
+        {/* Dedicated Verified Green Vendor Marketplace Section */}
         <section id="marketplace" className="marketplace-section">
           <div className="container">
             <div className="section-header text-center">
+              <div className="badge-pill" style={{ margin: "0 auto 12px auto", display: "inline-flex" }}>
+                <span className="badge-dot"></span>
+                <span className="badge-text">Verified Clean Tech Network</span>
+              </div>
               <h2 className="section-title">Verified Green Vendor Marketplace</h2>
               <p className="section-subtitle">
-                Instantly buy or request quotations from highly rated sustainable technology providers verified by
-                system administrators.
+                Instantly discover, compare, and request quotations from vetted green technology providers across solar, rainwater, EV infrastructure, and waste management.
               </p>
-              <div className="filter-tabs">
+
+              {/* Callout Banner to Dedicated In-Depth Marketplace Page */}
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "12px",
+                  marginTop: "16px",
+                  padding: "10px 22px",
+                  background: "rgba(16, 185, 129, 0.1)",
+                  border: "1px solid rgba(16, 185, 129, 0.3)",
+                  borderRadius: "30px",
+                  flexWrap: "wrap",
+                }}
+              >
+                <span style={{ fontSize: "0.85rem", color: "var(--text-secondary)" }}>
+                  Want full engineering specs, DISCOM net-metering norms &amp; subsidy models?
+                </span>
+                <Link
+                  href="/marketplace"
+                  style={{
+                    fontSize: "0.85rem",
+                    fontWeight: 700,
+                    color: "#10B981",
+                    textDecoration: "none",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "4px",
+                  }}
+                >
+                  <span>Open In-Depth Marketplace Page</span>
+                  <span>→</span>
+                </Link>
+              </div>
+
+              {/* Comprehensive Category Tabs */}
+              <div className="filter-tabs" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "8px", marginTop: "24px" }}>
                 <button
                   className={`filter-btn ${marketplaceFilter === "all" ? "active" : ""}`}
                   onClick={() => setMarketplaceFilter("all")}
                 >
-                  All Solutions
+                  All Marketplace ({vendorServices.length})
                 </button>
                 <button
                   className={`filter-btn ${marketplaceFilter === "solar" ? "active" : ""}`}
                   onClick={() => setMarketplaceFilter("solar")}
                 >
-                  Solar Energy
+                  ☀️ Solar PV &amp; Microgrid
                 </button>
                 <button
                   className={`filter-btn ${marketplaceFilter === "water" ? "active" : ""}`}
                   onClick={() => setMarketplaceFilter("water")}
                 >
-                  Rainwater Harvesting
+                  💧 Rainwater Harvesting
+                </button>
+                <button
+                  className={`filter-btn ${marketplaceFilter === "ev" ? "active" : ""}`}
+                  onClick={() => setMarketplaceFilter("ev")}
+                >
+                  ⚡ EV Fast Charging
                 </button>
                 <button
                   className={`filter-btn ${marketplaceFilter === "waste" ? "active" : ""}`}
                   onClick={() => setMarketplaceFilter("waste")}
                 >
-                  Waste Management
+                  ♻️ Waste &amp; Biogas
                 </button>
+                <button
+                  className={`filter-btn ${marketplaceFilter === "storage" ? "active" : ""}`}
+                  onClick={() => setMarketplaceFilter("storage")}
+                >
+                  🔋 Battery Storage (BESS)
+                </button>
+              </div>
+
+              {/* Quick Search Bar */}
+              <div style={{ maxWidth: "480px", margin: "20px auto 0 auto", position: "relative" }}>
+                <input
+                  type="text"
+                  placeholder="Search solar, rainwater, EV chargers, vendor name..."
+                  value={marketplaceSearch}
+                  onChange={(e) => setMarketplaceSearch(e.target.value)}
+                  style={{
+                    width: "100%",
+                    padding: "12px 18px 12px 42px",
+                    borderRadius: "30px",
+                    border: "1px solid var(--card-border)",
+                    background: "var(--card-bg)",
+                    color: "var(--text-primary)",
+                    fontSize: "0.9rem",
+                    outline: "none",
+                  }}
+                />
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  style={{ position: "absolute", left: "16px", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)" }}
+                >
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
               </div>
             </div>
 
+            {/* Vendor Grid */}
             <div className="marketplace-grid grid-3" id="marketplace-grid">
               {filteredServices.map((service) => (
                 <div key={service.id} className="market-card" data-category={service.category}>
-                  <div className="market-badge">{service.badge}</div>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                    <div className="market-badge">{service.badge}</div>
+                    <span style={{ fontSize: "0.72rem", padding: "2px 8px", borderRadius: "10px", background: "rgba(245, 158, 11, 0.12)", color: "#F59E0B", fontWeight: 700 }}>
+                      ⭐ {service.rating} ({service.installations})
+                    </span>
+                  </div>
+
                   <div className="market-content">
-                    <h4>{service.title}</h4>
-                    <p className="text-muted">{service.desc}</p>
+                    <h4 style={{ fontSize: "1.1rem", marginBottom: "4px" }}>{service.title}</h4>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
+                      <span style={{ fontSize: "0.82rem", fontWeight: 700, color: "var(--primary)" }}>
+                        {service.vendor}
+                      </span>
+                      <span style={{ fontSize: "0.68rem", padding: "1px 6px", borderRadius: "4px", background: "rgba(16, 185, 129, 0.15)", color: "#10B981", fontWeight: 600 }}>
+                        {service.trustBadge}
+                      </span>
+                    </div>
+
+                    <p className="text-muted" style={{ fontSize: "0.85rem", lineHeight: "1.5", marginBottom: "16px" }}>
+                      {service.desc}
+                    </p>
+
                     <div className="market-footer">
                       <div className="price-info">
                         <span className="price-label">Starts at</span>
                         <span className="price-value">{service.price}</span>
                       </div>
-                      <button className="btn btn-primary btn-sm btn-market">Request Quote</button>
+                      <div style={{ display: "flex", gap: "6px" }}>
+                        <button
+                          className="btn btn-primary btn-sm btn-market"
+                          onClick={() => handleOpenQuoteModal(service)}
+                        >
+                          Quote
+                        </button>
+                        <Link
+                          href="/marketplace"
+                          className="btn btn-outline btn-sm"
+                          style={{ fontSize: "0.78rem", padding: "6px 10px" }}
+                          title="View technical specs, tariffs, subsidies & engineering calculations"
+                        >
+                          Details →
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
+
+            {filteredServices.length === 0 && (
+              <div style={{ textAlign: "center", padding: "60px 20px" }}>
+                <p style={{ color: "var(--text-muted)", fontSize: "1.1rem" }}>No green solutions matched your filter. Try clearing your search.</p>
+                <button onClick={() => { setMarketplaceFilter("all"); setMarketplaceSearch(""); }} className="btn btn-outline btn-sm" style={{ marginTop: "12px" }}>
+                  Reset Filters
+                </button>
+              </div>
+            )}
+
+            {/* Dedicated Callout to the New Vendor & Builder Dashboard */}
+            <div
+              className="glass-panel"
+              style={{
+                marginTop: "48px",
+                padding: "32px",
+                borderRadius: "16px",
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: "24px",
+                background: "linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(6, 182, 212, 0.08) 100%)",
+                border: "1px solid rgba(16, 185, 129, 0.2)",
+              }}
+            >
+              <div>
+                <span style={{ fontSize: "0.75rem", padding: "2px 8px", borderRadius: "4px", background: "#10B981", color: "#FFFFFF", fontWeight: 800, letterSpacing: "0.5px" }}>
+                  FOR VENDORS &amp; BUILDERS
+                </span>
+                <h3 style={{ fontSize: "1.35rem", fontWeight: 800, margin: "8px 0 4px 0", color: "var(--text-primary)" }}>
+                  Are you an Eco-Vendor or Real Estate Developer?
+                </h3>
+                <p style={{ fontSize: "0.9rem", color: "var(--text-secondary)", margin: 0, maxWidth: "680px" }}>
+                  Manage your green catalog, reply to tenders, evaluate green building mandates, and dispatch project RFQs in the dedicated <strong>Vendor &amp; Builder Hub</strong>.
+                </p>
+              </div>
+              <Link href="/portal" className="btn btn-primary btn-md" style={{ flexShrink: 0 }}>
+                Enter Vendor &amp; Builder Hub →
+              </Link>
+            </div>
           </div>
         </section>
+
+        {/* Quotation Request Modal */}
+        {quoteModalOpen && selectedService && (
+          <div className="modal-backdrop" onClick={() => setQuoteModalOpen(false)}>
+            <div
+              className="glass-panel"
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                maxWidth: "500px",
+                width: "100%",
+                padding: "32px",
+                borderRadius: "16px",
+                position: "relative",
+              }}
+            >
+              <button
+                onClick={() => setQuoteModalOpen(false)}
+                style={{
+                  position: "absolute",
+                  top: "16px",
+                  right: "16px",
+                  background: "none",
+                  border: "none",
+                  fontSize: "1.2rem",
+                  color: "var(--text-muted)",
+                  cursor: "pointer",
+                }}
+              >
+                ✕
+              </button>
+
+              <div style={{ marginBottom: "20px" }}>
+                <span style={{ fontSize: "0.75rem", color: "var(--primary)", fontWeight: 700, textTransform: "uppercase" }}>
+                  Quotation Request
+                </span>
+                <h3 style={{ fontSize: "1.25rem", margin: "4px 0", color: "var(--text-primary)" }}>
+                  {selectedService.title}
+                </h3>
+                <p style={{ fontSize: "0.85rem", color: "var(--text-muted)", margin: 0 }}>
+                  Provided by <strong>{selectedService.vendor}</strong> ({selectedService.trustBadge})
+                </p>
+              </div>
+
+              {quoteSubmitted ? (
+                <div style={{ textAlign: "center", padding: "24px 0" }}>
+                  <div
+                    style={{
+                      width: "56px",
+                      height: "56px",
+                      borderRadius: "50%",
+                      background: "rgba(16, 185, 129, 0.2)",
+                      color: "#10B981",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      margin: "0 auto 16px auto",
+                      fontSize: "1.8rem",
+                    }}
+                  >
+                    ✓
+                  </div>
+                  <h4 style={{ fontSize: "1.15rem", marginBottom: "8px", color: "var(--text-primary)" }}>
+                    Quotation Request Sent!
+                  </h4>
+                  <p style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>
+                    Your request has been forwarded directly to <strong>{selectedService.vendor}</strong>. Their technical team will reach out via phone within 24 business hours.
+                  </p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmitQuote}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+                    <div>
+                      <label style={{ fontSize: "0.82rem", fontWeight: 600, display: "block", marginBottom: "6px", color: "var(--text-secondary)" }}>
+                        Housing Society / Builder Project Name *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. Green Meadows CHS or Apex Towers"
+                        value={quoteSocietyName}
+                        onChange={(e) => setQuoteSocietyName(e.target.value)}
+                        style={{ width: "100%", padding: "10px 14px", borderRadius: "8px" }}
+                      />
+                    </div>
+
+                    <div>
+                      <label style={{ fontSize: "0.82rem", fontWeight: 600, display: "block", marginBottom: "6px", color: "var(--text-secondary)" }}>
+                        Contact Phone Number *
+                      </label>
+                      <input
+                        type="tel"
+                        required
+                        placeholder="+91 98765 43210"
+                        value={quoteContactPhone}
+                        onChange={(e) => setQuoteContactPhone(e.target.value)}
+                        style={{ width: "100%", padding: "10px 14px", borderRadius: "8px" }}
+                      />
+                    </div>
+
+                    <div>
+                      <label style={{ fontSize: "0.82rem", fontWeight: 600, display: "block", marginBottom: "6px", color: "var(--text-secondary)" }}>
+                        Estimated Scale / Requirements
+                      </label>
+                      <textarea
+                        rows={3}
+                        placeholder="e.g. 100 flats, ~8,000 sq.ft terrace area, interested in net-metering assistance"
+                        value={quoteNotes}
+                        onChange={(e) => setQuoteNotes(e.target.value)}
+                        style={{ width: "100%", padding: "10px 14px", borderRadius: "8px", resize: "none" }}
+                      />
+                    </div>
+
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "10px" }}>
+                      <span style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>
+                        Base Price: <strong style={{ color: "var(--text-primary)" }}>{selectedService.price}</strong>
+                      </span>
+                      <button type="submit" className="btn btn-primary btn-sm">
+                        Submit Request →
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* CTA Callout */}
         <section className="cta-section">
@@ -832,8 +1280,8 @@ export default function Home() {
               <Link href="/register" className="btn btn-primary btn-lg">
                 Register Society
               </Link>
-              <Link href="/register" className="btn btn-outline btn-lg">
-                Join as Eco-Vendor
+              <Link href="/portal" className="btn btn-outline btn-lg">
+                Join as Eco-Vendor or Builder
               </Link>
             </div>
           </div>
@@ -870,7 +1318,7 @@ export default function Home() {
               <a href="#features">Features</a>
               <a href="#calculator">Savings Calculator</a>
               <a href="#dashboard">Admin Demo</a>
-              <a href="#marketplace">Eco-Vendors</a>
+              <Link href="/marketplace">All Marketplace</Link>
             </div>
             <div className="footer-links-col">
               <h6>Resources</h6>
