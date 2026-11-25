@@ -39,4 +39,25 @@ public class UserService {
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
+
+    public User updateUser(Long id, User updatedUserDetails) {
+        return userRepository.findById(id).map(existingUser -> {
+
+            if (updatedUserDetails.getFullName() != null) {
+                existingUser.setFullName(updatedUserDetails.getFullName());
+            }
+            if (updatedUserDetails.getPhoneNumber() != null) {
+                existingUser.setPhoneNumber(updatedUserDetails.getPhoneNumber());
+            }
+            if (updatedUserDetails.getRole() != null) {
+                existingUser.setRole(updatedUserDetails.getRole());
+            }
+
+            if (updatedUserDetails.getPasswordHash() != null) {
+                existingUser.setPasswordHash(updatedUserDetails.getPasswordHash());
+            }
+
+            return userRepository.save(existingUser);
+        }).orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
+    }
 }
